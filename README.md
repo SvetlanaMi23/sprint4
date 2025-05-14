@@ -1,0 +1,1 @@
+Автотесты Яндекс.Самокат в FareFox и Chrome для Sprint4
