@@ -13,8 +13,8 @@ public class MainPage {
     //Вопросы о важном
     private static final By importantQuestions = By.className("Home_FAQ__3uVm4");
     //Кнопка Заказать сверху страницы
-    private static final By orderHeaderButtonClass1 = By.className("Header_Nav__AGCXC");
-    private static final By orderHeaderButtonClass2 = By.className("Button_Button__ra12g");
+    private static final By orderHeaderButtonFirstClass = By.className("Header_Nav__AGCXC");
+    private static final By orderHeaderButtonSecondClass = By.className("Button_Button__ra12g");
 
     //Кнопка Заказать внизу страницы
     private static final By orderButtonClass = By.className("Home_FinishButton__1_cWm");
@@ -44,7 +44,7 @@ public class MainPage {
 
     // Кнопка "Заказать" вверху страницы
     public void clickHeaderOrderButton() {
-        WebElement headerButton = driver.findElement(orderHeaderButtonClass1).findElement(orderHeaderButtonClass2);
+        WebElement headerButton = driver.findElement(orderHeaderButtonFirstClass).findElement(orderHeaderButtonSecondClass);
         headerButton.click();
     }
 
