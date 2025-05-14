@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 
 public class OrderPage {
 
-    private WebDriver driver;
+    private final WebDriver driver;
 
     public OrderPage(WebDriver driver) {
         this.driver = driver;
@@ -26,12 +26,15 @@ public class OrderPage {
     private final By dateInput = By.xpath("//input[@placeholder='* Когда привезти самокат']");
     private final By rentalPeriodDropdown = By.className("Dropdown-control");
     private final By commentInput = By.xpath("//input[@placeholder='Комментарий для курьера']");
-    private final By blackColorCheckbox = By.id("black");
-    private final By greyColorCheckbox = By.id("grey");
+
+    private final String blackColor = "black";
+    private final By blackColorCheckbox = By.id(blackColor);
+    private final String greyColor = "grey";
+    private final By greyColorCheckbox = By.id(greyColor);
     private final By orderSubmitButton = By.xpath("(//button[text()='Заказать'])[last()]");
     private final By confirmButton = By.xpath("//button[contains(@class, 'Button_Middle__1CSJM') and text()='Да']");
-
     private final By orderSuccessHeader = By.className("Order_ModalHeader__3FDaJ");
+    private final String rentPeriodXpath = "//div[@class='Dropdown-option' and text()='%s']";
 
 
     //Методы первой формы
@@ -46,34 +49,37 @@ public class OrderPage {
         metroField.sendKeys(Keys.DOWN, Keys.ENTER);  // Выбираем нужный элемент из списка
 
         driver.findElement(phoneInput).sendKeys(phone);// Находим и заполняем поле Телефон
-        driver.findElement(nextButton).click();
+        driver.findElement(nextButton).click();// Находим и нажимаем кнопку Далее
     }
 
     // Методы второй формы
-    public void fillStepTwoForm(String date, String rentalPeriod, String color, String comment) throws InterruptedException {
-        driver.findElement(dateInput).sendKeys(date);
-        driver.findElement(dateInput).sendKeys(Keys.ENTER);
+    public void fillStepTwoForm(String date, String rentalPeriod, String color, String comment) {
+        driver.findElement(dateInput).sendKeys(date); // Находим и заполняем поле Дата
+        driver.findElement(dateInput).sendKeys(Keys.ENTER); // Находим и кликаем Enter
 
-        driver.findElement(rentalPeriodDropdown).click();
-        driver.findElement(By.xpath(String.format("//div[@class='Dropdown-option' and text()='%s']", rentalPeriod))).click();
+        driver.findElement(rentalPeriodDropdown).click(); // Находим поле с выпадающим списком Периода аренды
+        driver.findElement(By.xpath(String.format(rentPeriodXpath, rentalPeriod))).click(); // Выбираем из выпадающего списка период и нажимаем
 
-        if (color.equalsIgnoreCase("black") || color.equalsIgnoreCase("both")) {
+        // Поле Цвет
+        if (color.equalsIgnoreCase(blackColor) || color.equalsIgnoreCase("both")) {
             driver.findElement(blackColorCheckbox).click();
         }
-        if (color.equalsIgnoreCase("grey") || color.equalsIgnoreCase("both")) {
+        if (color.equalsIgnoreCase(greyColor) || color.equalsIgnoreCase("both")) {
             driver.findElement(greyColorCheckbox).click();
         }
 
-        driver.findElement(commentInput).sendKeys(comment);
-        driver.findElement(orderSubmitButton).click();
+        driver.findElement(commentInput).sendKeys(comment); // Находим и заполняем поле Комментарий
+        driver.findElement(orderSubmitButton).click(); // Находим нижнюю кнопку Заказать и кликаем на нее
     }
 
     //Метод подтверждения заказа
+    // Находим кнопку Да и кликаем на нее
     public void confirmOrder() {
         driver.findElement(confirmButton).click();
     }
 
     // Метод успешного оформления заказа
+    // Находим надпись Заказ оформлен и сравниваем текст
     public boolean isOrderConfirmed() {
         return driver.findElement(orderSuccessHeader).getText().contains("Заказ оформлен");
     }
