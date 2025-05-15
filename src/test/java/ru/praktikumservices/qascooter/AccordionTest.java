@@ -89,10 +89,4 @@ public class AccordionTest extends BasePageTest {
         Assert.assertEquals(getDriverNameMsg(), text, result); //сравниваем открывающийся текст в аккордионе
 
     }
-
-    @After
-    public void teardown() {
-        // Закрыли браузер
-        driver.quit();
-    }
 }

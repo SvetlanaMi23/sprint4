@@ -119,11 +119,4 @@ public class OrderPageTest extends BasePageTest {
         String actualUrl = driver.getCurrentUrl();
         assertEquals(getDriverNameMsg(), orderUrl, actualUrl);
     }
-
-
-    @After
-    public void teardown() {
-        // Закрыли браузер
-        driver.quit();
-    }
 }

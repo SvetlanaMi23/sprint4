@@ -1,5 +1,6 @@
 package ru.praktikumservices.qascooter;
 
+import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -37,5 +38,11 @@ public class BasePageTest {
 
     protected String getDriverNameMsg() {
         return "Error on driver name: " + (typeDriver == 0 ? "FireFox" : "Chrome");
+    }
+
+    @After
+    public void teardown() {
+        // Закрыли браузер
+        driver.quit();
     }
 }
