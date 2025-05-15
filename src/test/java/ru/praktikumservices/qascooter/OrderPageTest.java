@@ -1,6 +1,5 @@
 package ru.praktikumservices.qascooter;
 
-import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -81,6 +80,7 @@ public class OrderPageTest extends BasePageTest {
 
         // Создание страницы оформления заказа
         OrderPage orderPage = new OrderPage(driver);
+        initPage(orderPage);
 
         // Заполнение первой формы
         orderPage.fillStepOneForm(firstName, lastName, address, metro, phone);
@@ -114,6 +114,7 @@ public class OrderPageTest extends BasePageTest {
         driver.get(url);
 
         MainPage mainPage = new MainPage(driver);
+        initPage(mainPage);
         clickConsumer.accept(mainPage);
 
         String actualUrl = driver.getCurrentUrl();

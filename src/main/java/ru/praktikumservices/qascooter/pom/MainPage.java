@@ -4,10 +4,16 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import ru.praktikumservices.qascooter.ui.HasTextCondition;
+
+import java.time.Duration;
 
 
-public class MainPage {
+public class MainPage extends BasePage {
 
+    //Время ожидания текста в оккардионе
+    private static final long textWaitTime = 1000;
     //Вопросы о важном
     private static final By importantQuestions = By.className("Home_FAQ__3uVm4");
     //Кнопка Заказать сверху страницы
@@ -40,6 +46,7 @@ public class MainPage {
     private final WebDriver driver;
 
     public MainPage(WebDriver driver) {
+        super(driver);
         this.driver = driver;
     }
 
@@ -49,7 +56,7 @@ public class MainPage {
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", element);
     }
 
-     // Клик по вопросу по первому заголовку
+    // Клик по вопросу по первому заголовку
     public void clickAccordionHeadingMoneyButton() {
         driver.findElement(accHeadingMoney).click();
     }
@@ -62,6 +69,7 @@ public class MainPage {
     // Получение ответа на вопрос по первой панеле
     public String getAccordionMoneyAnswer() {
         clickAccordionHeadingMoneyButton();
+        waitText(accPanelMoney);
         return getAccordionPanelMoneyText();
     }
 
@@ -78,6 +86,7 @@ public class MainPage {
     // Получение ответа на вопрос по второй панеле
     public String getAccordionSeveralAnswer() {
         clickAccordionHeadingSeveralButton();
+        waitText(accPanelSeveral);
         return getAccordionPanelSeveralText();
     }
 
@@ -94,6 +103,7 @@ public class MainPage {
     // Получение ответа на вопрос по третьей панеле
     public String getAccordionTimeAnswer() {
         clickAccordionHeadingTimeButton();
+        waitText(accPanelTime);
         return getAccordionPanelTimeText();
     }
 
@@ -110,6 +120,7 @@ public class MainPage {
     // Получение ответа на вопрос по четвертой панеле
     public String getAccordionTodayAnswer() {
         clickAccordionHeadingTodayButton();
+        waitText(accPanelToday);
         return getAccordionPanelTodayText();
     }
 
@@ -126,6 +137,7 @@ public class MainPage {
     // Получение ответа на вопрос по пятой панеле
     public String getAccordionExtendAnswer() {
         clickAccordionHeadingExtendButton();
+        waitText(accPanelExtend);
         return getAccordionPanelExtendText();
     }
 
@@ -142,6 +154,7 @@ public class MainPage {
     // Получение ответа на вопрос по шестой панеле
     public String getAccordionChargeAnswer() {
         clickAccordionHeadingChargeButton();
+        waitText(accPanelCharge);
         return getAccordionPanelChargeText();
     }
 
@@ -159,6 +172,7 @@ public class MainPage {
     // Получение ответа на вопрос по седьмой панеле
     public String getAccordionCancelAnswer() {
         clickAccordionHeadingCancelButton();
+        waitText(accPanelCancel);
         return getAccordionPanelCancelText();
     }
 
@@ -175,6 +189,7 @@ public class MainPage {
     // Получение ответа на вопрос по восьмой панеле
     public String getAccordionMkadAnswer() {
         clickAccordionHeadingMkadButton();
+        waitText(accPanelMkad);
         return getAccordionPanelMkadText();
     }
 
@@ -195,5 +210,10 @@ public class MainPage {
     public void clickMainOrderButton() {
         WebElement mainButton = driver.findElement(orderButtonClass).findElement(orderButtonTag);
         mainButton.click();
+    }
+
+    //Ожидание появления текста в элементе
+    private void waitText(By locator) {
+        new WebDriverWait(driver, Duration.ofMillis(textWaitTime)).until(new HasTextCondition(locator));
     }
 }

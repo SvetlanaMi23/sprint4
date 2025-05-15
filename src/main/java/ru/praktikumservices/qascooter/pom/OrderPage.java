@@ -5,13 +5,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class OrderPage {
-
-    private final WebDriver driver;
-
-    public OrderPage(WebDriver driver) {
-        this.driver = driver;
-    }
+public class OrderPage extends BasePage {
 
     // Первая форма
     private final By firstNameInput = By.xpath("//input[@placeholder='* Имя']");
@@ -36,6 +30,13 @@ public class OrderPage {
     private final By orderSuccessHeader = By.className("Order_ModalHeader__3FDaJ");
     private final String rentPeriodXpath = "//div[@class='Dropdown-option' and text()='%s']";
 
+    private final WebDriver driver;
+
+    public OrderPage(WebDriver driver) {
+        super(driver);
+        this.driver = driver;
+    }
+
 
     //Методы первой формы
     //метод заполняет поле Имя
@@ -56,7 +57,6 @@ public class OrderPage {
     //метод заполняет поле Метро
     public void setMetro(String metro) {
         WebElement metroField = driver.findElement(metroInput);
-        metroField.click();  // Кликаем по полю, чтобы открыть выпадающий список
         metroField.sendKeys(metro);  // Вводим название станции (если это требуется)
         metroField.sendKeys(Keys.DOWN, Keys.ENTER);
     }

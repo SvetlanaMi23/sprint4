@@ -7,6 +7,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import ru.praktikumservices.qascooter.pom.BasePage;
 
 import java.time.Duration;
 
@@ -21,19 +22,24 @@ public class BasePageTest {
 
     @Before
     public void createDriver() {
+        String[] arguments = new String[]{"--no-sandbox", "--headless", "--window-size=1920,1080", "--disable-dev-shm-usage"};
         if (typeDriver == 0) {
             // Создаем драйвер для браузера Firefox
             FirefoxOptions firefoxOptions = new FirefoxOptions();
-            firefoxOptions.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage");
+            firefoxOptions.addArguments(arguments);
             driver = new FirefoxDriver(firefoxOptions);
         } else {
             // Создаем драйвер для браузера Chrome
             ChromeOptions chromeOptions = new ChromeOptions();
-            chromeOptions.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage");
+            chromeOptions.addArguments(arguments);
             driver = new ChromeDriver(chromeOptions);
         }
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10)); //Неявное ожидание
+    }
+
+    protected void initPage(BasePage page) {
+        page.clickAcceptCookieButton();
     }
 
     protected String getDriverNameMsg() {

@@ -54,16 +54,17 @@ public class AccordionTest extends BasePageTest {
     public void checkAccordionAnswer() {
         driver.get(url);
         MainPage mainPage = new MainPage(driver);
+        initPage(mainPage);
         mainPage.scrollDown(); //Скролл до вопросов о важном
 
         //сравниваем открывающийся текст в аккордионе
-        Assert.assertEquals(getDriverNameMsg(), mainPage.getAccordionMoneyAnswer(), moneyTest);
-        Assert.assertEquals(getDriverNameMsg(), mainPage.getAccordionSeveralAnswer(), severalText);
-        Assert.assertEquals(getDriverNameMsg(), mainPage.getAccordionTimeAnswer(), timeText);
-        Assert.assertEquals(getDriverNameMsg(), mainPage.getAccordionTodayAnswer(), todayText);
-        Assert.assertEquals(getDriverNameMsg(), mainPage.getAccordionExtendAnswer(), extendText);
-        Assert.assertEquals(getDriverNameMsg(), mainPage.getAccordionChargeAnswer(), chargeText);
-        Assert.assertEquals(getDriverNameMsg(), mainPage.getAccordionCancelAnswer(), cancelText);
-        Assert.assertEquals(getDriverNameMsg(), mainPage.getAccordionMkadAnswer(), mkadText);
+        Assert.assertEquals(getDriverNameMsg(), moneyTest, mainPage.getAccordionMoneyAnswer());
+        Assert.assertEquals(getDriverNameMsg(), severalText, mainPage.getAccordionSeveralAnswer());
+        Assert.assertEquals(getDriverNameMsg(), timeText, mainPage.getAccordionTimeAnswer());
+        Assert.assertEquals(getDriverNameMsg(), todayText, mainPage.getAccordionTodayAnswer());
+        Assert.assertEquals(getDriverNameMsg(), extendText, mainPage.getAccordionExtendAnswer());
+        Assert.assertEquals(getDriverNameMsg(), chargeText, mainPage.getAccordionChargeAnswer());
+        Assert.assertEquals(getDriverNameMsg(), cancelText, mainPage.getAccordionCancelAnswer());
+        Assert.assertEquals(getDriverNameMsg(), mkadText, mainPage.getAccordionMkadAnswer());
     }
 }
