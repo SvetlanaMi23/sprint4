@@ -38,38 +38,89 @@ public class OrderPage {
 
 
     //Методы первой формы
-    public void fillStepOneForm(String firstName, String lastName, String address, String metro, String phone) {
-        driver.findElement(firstNameInput).sendKeys(firstName); // Находим и заполняем поле Имя
-        driver.findElement(lastNameInput).sendKeys(lastName); // Находим и заполняем поле Фамилия
-        driver.findElement(addressInput).sendKeys(address); // Находим и заполняем поле Адрес
-        // Поле Метро
+    //метод заполняет поле Имя
+    public void setFirstName(String name) {
+        driver.findElement(firstNameInput).sendKeys(name);
+    }
+
+    //метод заполняет поле Фамилия
+    public void setLastName(String name) {
+        driver.findElement(lastNameInput).sendKeys(name);
+    }
+
+    //метод заполняет поле Адресс
+    public void setAddress(String address) {
+        driver.findElement(addressInput).sendKeys(address);
+    }
+
+    //метод заполняет поле Метро
+    public void setMetro(String metro) {
         WebElement metroField = driver.findElement(metroInput);
         metroField.click();  // Кликаем по полю, чтобы открыть выпадающий список
         metroField.sendKeys(metro);  // Вводим название станции (если это требуется)
-        metroField.sendKeys(Keys.DOWN, Keys.ENTER);  // Выбираем нужный элемент из списка
+        metroField.sendKeys(Keys.DOWN, Keys.ENTER);
+    }
 
-        driver.findElement(phoneInput).sendKeys(phone);// Находим и заполняем поле Телефон
-        driver.findElement(nextButton).click();// Находим и нажимаем кнопку Далее
+    //метод заполняет поле Телефон
+    public void setPhone(String phone) {
+        driver.findElement(phoneInput).sendKeys(phone);
+    }
+
+    //метод находит кнопку "Далее"
+    public void clickNext() {
+        driver.findElement(nextButton).click();
+    }
+
+    //метод кликает по кнопке "Далее" после заполнения всех полей
+    public void fillStepOneForm(String firstName, String lastName, String address, String metro, String phone) {
+        setFirstName(firstName);
+        setLastName(lastName);
+        setAddress(address);
+        setMetro(metro);
+        setPhone(phone);
+        clickNext();
     }
 
     // Методы второй формы
-    public void fillStepTwoForm(String date, String rentalPeriod, String color, String comment) {
+    // Поле Дата
+    private void setDate(String date) {
         driver.findElement(dateInput).sendKeys(date); // Находим и заполняем поле Дата
         driver.findElement(dateInput).sendKeys(Keys.ENTER); // Находим и кликаем Enter
+    }
 
+    // Поле Период аренды
+    private void setRentalPeriod(String rentalPeriod) {
         driver.findElement(rentalPeriodDropdown).click(); // Находим поле с выпадающим списком Периода аренды
         driver.findElement(By.xpath(String.format(rentPeriodXpath, rentalPeriod))).click(); // Выбираем из выпадающего списка период и нажимаем
+    }
 
-        // Поле Цвет
+    // Поле Цвет
+    private void setColor(String color) {
         if (color.equalsIgnoreCase(blackColor) || color.equalsIgnoreCase("both")) {
             driver.findElement(blackColorCheckbox).click();
         }
         if (color.equalsIgnoreCase(greyColor) || color.equalsIgnoreCase("both")) {
             driver.findElement(greyColorCheckbox).click();
         }
+    }
 
+    // Поле Комментарий
+    private void setComment(String comment) {
         driver.findElement(commentInput).sendKeys(comment); // Находим и заполняем поле Комментарий
+    }
+
+    // Кнопка Заказать
+    public void clickOrder() {
         driver.findElement(orderSubmitButton).click(); // Находим нижнюю кнопку Заказать и кликаем на нее
+    }
+
+    //метод кликает по нижней кнопке Заказать после заполнения всех полей
+    public void fillStepTwoForm(String date, String rentalPeriod, String color, String comment) {
+        setDate(date);
+        setRentalPeriod(rentalPeriod);
+        setColor(color);
+        setComment(comment);
+        clickOrder();
     }
 
     //Метод подтверждения заказа
