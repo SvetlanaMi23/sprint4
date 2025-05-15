@@ -33,7 +33,7 @@ public class BasePageTest {
             driver = new ChromeDriver(chromeOptions);
         }
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5)); //Неявное ожидание
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10)); //Неявное ожидание
     }
 
     protected String getDriverNameMsg() {
