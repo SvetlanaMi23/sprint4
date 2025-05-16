@@ -6,31 +6,23 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import ru.praktikumservices.qascooter.pom.MainPage;
 
+import java.util.function.Function;
+
 
 @RunWith(Parameterized.class) // Аннотация для параметризованных тестов
 public class AccordionTest extends BasePageTest {
     private static final String URL = "https://qa-scooter.praktikum-services.ru/";
-    private final String moneyTest;
-    private final String severalText;
-    private final String timeText;
-    private final String todayText;
-    private final String extendText;
-    private final String chargeText;
-    private final String cancelText;
-    private final String mkadText;
+    private final String expectedText;
+    private final Function<MainPage, String> actualFunctionText;
+    private final String assertMessage;
 
     // Создаем конструктор и инициализируем поля класса в нем
-    public AccordionTest(String moneyTest, String severalText, String timeText, String todayText, String extendText,
-                         String chargeText, String cancelText, String mkadText, int typeDriver) {
+    public AccordionTest(String expectedText, Function<MainPage, String> actualFunctionText,
+                         String assertMessage, int typeDriver) {
         super(typeDriver);
-        this.moneyTest = moneyTest;
-        this.severalText = severalText;
-        this.timeText = timeText;
-        this.todayText = todayText;
-        this.extendText = extendText;
-        this.chargeText = chargeText;
-        this.cancelText = cancelText;
-        this.mkadText = mkadText;
+        this.expectedText = expectedText;
+        this.actualFunctionText = actualFunctionText;
+        this.assertMessage = assertMessage;
     }
 
     @Parameterized.Parameters // Аннотация метода для параметров
@@ -45,64 +37,34 @@ public class AccordionTest extends BasePageTest {
         String mkadText = "Да, обязательно. Всем самокатов! И Москве, и Московской области.";
 
         return new Object[][]{
-                {moneyTest, severalText, timeText, todayText, extendText, chargeText, cancelText, mkadText, 0},
-                {moneyTest, severalText, timeText, todayText, extendText, chargeText, cancelText, mkadText, 1}
-        };
-    }
+                {moneyTest, (Function<MainPage, String>) MainPage::getAccordionMoneyAnswer, "AccordionMoneyAnswer is failed", 0},
+                {severalText, (Function<MainPage, String>) MainPage::getAccordionSeveralAnswer, "AccordionSeveralAnswer is failed", 0},
+                {timeText, (Function<MainPage, String>) MainPage::getAccordionTimeAnswer, "AccordionTimeAnswer is failed", 0},
+                {todayText, (Function<MainPage, String>) MainPage::getAccordionTodayAnswer, "AccordionTodayAnswer is failed", 0},
+                {extendText, (Function<MainPage, String>) MainPage::getAccordionExtendAnswer, "AccordionExtendAnswer is failed", 0},
+                {chargeText, (Function<MainPage, String>) MainPage::getAccordionChargeAnswer, "AccordionChargeAnswer is failed", 0},
+                {cancelText, (Function<MainPage, String>) MainPage::getAccordionCancelAnswer, "AccordionCancelAnswer is failed", 0},
+                {mkadText, (Function<MainPage, String>) MainPage::getAccordionMkadAnswer, "AccordionMkadAnswer is failed", 0},
 
-    private MainPage initMainPage() {
-        driver.get(URL);
-        MainPage mainPage = new MainPage(driver);
-        initPage(mainPage);
-        mainPage.scrollDown(); //Скролл до вопросов о важном
-        return mainPage;
+                {moneyTest, (Function<MainPage, String>) MainPage::getAccordionMoneyAnswer, "AccordionMoneyAnswer is failed", 1},
+                {severalText, (Function<MainPage, String>) MainPage::getAccordionSeveralAnswer, "AccordionSeveralAnswer is failed", 1},
+                {timeText, (Function<MainPage, String>) MainPage::getAccordionTimeAnswer, "AccordionTimeAnswer is failed", 1},
+                {todayText, (Function<MainPage, String>) MainPage::getAccordionTodayAnswer, "AccordionTodayAnswer is failed", 1},
+                {extendText, (Function<MainPage, String>) MainPage::getAccordionExtendAnswer, "AccordionExtendAnswer is failed", 1},
+                {chargeText, (Function<MainPage, String>) MainPage::getAccordionChargeAnswer, "AccordionChargeAnswer is failed", 1},
+                {cancelText, (Function<MainPage, String>) MainPage::getAccordionCancelAnswer, "AccordionCancelAnswer is failed", 1},
+                {mkadText, (Function<MainPage, String>) MainPage::getAccordionMkadAnswer, "AccordionMkadAnswer is failed", 1}
+        };
     }
 
     //сравниваем открывающийся текст в аккордионе
     @Test
-    public void checkAccordionMoneyAnswer() {
-        MainPage mainPage = initMainPage();
-        Assert.assertEquals(getDriverNameMsg(), moneyTest, mainPage.getAccordionMoneyAnswer());
-    }
+    public void checkAccordionAnswer() {
+        driver.get(URL);
+        MainPage mainPage = new MainPage(driver);
+        initPage(mainPage);
+        mainPage.scrollDown(); //Скролл до вопросов о важном
 
-    @Test
-    public void checkAccordionSeveralAnswer() {
-        MainPage mainPage = initMainPage();
-        Assert.assertEquals(getDriverNameMsg(), severalText, mainPage.getAccordionSeveralAnswer());
-    }
-
-    @Test
-    public void checkAccordionTimeAnswer() {
-        MainPage mainPage = initMainPage();
-        Assert.assertEquals(getDriverNameMsg(), timeText, mainPage.getAccordionTimeAnswer());
-    }
-
-    @Test
-    public void checkAccordionTodayAnswer() {
-        MainPage mainPage = initMainPage();
-        Assert.assertEquals(getDriverNameMsg(), todayText, mainPage.getAccordionTodayAnswer());
-    }
-
-    @Test
-    public void checkAccordionExtendAnswer() {
-        MainPage mainPage = initMainPage();
-        Assert.assertEquals(getDriverNameMsg(), extendText, mainPage.getAccordionExtendAnswer());
-    }
-    @Test
-    public void checkAccordionChargeAnswer() {
-        MainPage mainPage = initMainPage();
-        Assert.assertEquals(getDriverNameMsg(), chargeText, mainPage.getAccordionChargeAnswer());
-    }
-
-    @Test
-    public void checkAccordionCancelAnswer() {
-        MainPage mainPage = initMainPage();
-        Assert.assertEquals(getDriverNameMsg(), cancelText, mainPage.getAccordionCancelAnswer());
-    }
-
-    @Test
-    public void checkAccordionMkadAnswer() {
-        MainPage mainPage = initMainPage();
-        Assert.assertEquals(getDriverNameMsg(), mkadText, mainPage.getAccordionMkadAnswer());
+        Assert.assertEquals(getDriverNameMsg() + "; " + assertMessage, expectedText, actualFunctionText.apply(mainPage));
     }
 }
