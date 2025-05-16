@@ -13,7 +13,8 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(Parameterized.class)
 public class OrderPageTest extends BasePageTest {
-
+    private static final String URL = "https://qa-scooter.praktikum-services.ru/";
+    private static final String ORDER_URL = "https://qa-scooter.praktikum-services.ru/order";
     private final String firstName;
     private final String lastName;
     private final String address;
@@ -23,8 +24,6 @@ public class OrderPageTest extends BasePageTest {
     private final String rentalPeriod;
     private final String color;
     private final String comment;
-    private final String url = "https://qa-scooter.praktikum-services.ru/";
-    private final String orderUrl = "https://qa-scooter.praktikum-services.ru/order";
 
     // Конструктор для параметризированного теста
     public OrderPageTest(String firstName, String lastName, String address, String metro, String phone,
@@ -76,7 +75,7 @@ public class OrderPageTest extends BasePageTest {
     @Test
     public void testOrderFlow() {
         // Инициализация драйвера
-        driver.get(orderUrl);
+        driver.get(ORDER_URL);
 
         // Создание страницы оформления заказа
         OrderPage orderPage = new OrderPage(driver);
@@ -111,13 +110,13 @@ public class OrderPageTest extends BasePageTest {
 
     private void navigationAfterClickOrderButtonsTest(Consumer<MainPage> clickConsumer) {
         // Перешли на страницу тестового приложения
-        driver.get(url);
+        driver.get(URL);
 
         MainPage mainPage = new MainPage(driver);
         initPage(mainPage);
         clickConsumer.accept(mainPage);
 
         String actualUrl = driver.getCurrentUrl();
-        assertEquals(getDriverNameMsg(), orderUrl, actualUrl);
+        assertEquals(getDriverNameMsg(), ORDER_URL, actualUrl);
     }
 }

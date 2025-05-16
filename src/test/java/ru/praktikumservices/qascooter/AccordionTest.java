@@ -9,7 +9,7 @@ import ru.praktikumservices.qascooter.pom.MainPage;
 
 @RunWith(Parameterized.class) // Аннотация для параметризованных тестов
 public class AccordionTest extends BasePageTest {
-    private static final String url = "https://qa-scooter.praktikum-services.ru/";
+    private static final String URL = "https://qa-scooter.praktikum-services.ru/";
     private final String moneyTest;
     private final String severalText;
     private final String timeText;
@@ -50,21 +50,59 @@ public class AccordionTest extends BasePageTest {
         };
     }
 
-    @Test
-    public void checkAccordionAnswer() {
-        driver.get(url);
+    private MainPage initMainPage() {
+        driver.get(URL);
         MainPage mainPage = new MainPage(driver);
         initPage(mainPage);
         mainPage.scrollDown(); //Скролл до вопросов о важном
+        return mainPage;
+    }
 
-        //сравниваем открывающийся текст в аккордионе
+    //сравниваем открывающийся текст в аккордионе
+    @Test
+    public void checkAccordionMoneyAnswer() {
+        MainPage mainPage = initMainPage();
         Assert.assertEquals(getDriverNameMsg(), moneyTest, mainPage.getAccordionMoneyAnswer());
+    }
+
+    @Test
+    public void checkAccordionSeveralAnswer() {
+        MainPage mainPage = initMainPage();
         Assert.assertEquals(getDriverNameMsg(), severalText, mainPage.getAccordionSeveralAnswer());
+    }
+
+    @Test
+    public void checkAccordionTimeAnswer() {
+        MainPage mainPage = initMainPage();
         Assert.assertEquals(getDriverNameMsg(), timeText, mainPage.getAccordionTimeAnswer());
+    }
+
+    @Test
+    public void checkAccordionTodayAnswer() {
+        MainPage mainPage = initMainPage();
         Assert.assertEquals(getDriverNameMsg(), todayText, mainPage.getAccordionTodayAnswer());
+    }
+
+    @Test
+    public void checkAccordionExtendAnswer() {
+        MainPage mainPage = initMainPage();
         Assert.assertEquals(getDriverNameMsg(), extendText, mainPage.getAccordionExtendAnswer());
+    }
+    @Test
+    public void checkAccordionChargeAnswer() {
+        MainPage mainPage = initMainPage();
         Assert.assertEquals(getDriverNameMsg(), chargeText, mainPage.getAccordionChargeAnswer());
+    }
+
+    @Test
+    public void checkAccordionCancelAnswer() {
+        MainPage mainPage = initMainPage();
         Assert.assertEquals(getDriverNameMsg(), cancelText, mainPage.getAccordionCancelAnswer());
+    }
+
+    @Test
+    public void checkAccordionMkadAnswer() {
+        MainPage mainPage = initMainPage();
         Assert.assertEquals(getDriverNameMsg(), mkadText, mainPage.getAccordionMkadAnswer());
     }
 }

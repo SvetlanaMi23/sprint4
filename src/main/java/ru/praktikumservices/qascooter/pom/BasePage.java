@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 
 public class BasePage {
 
-    private final By cookieButton = By.id("rcc-confirm-button");
+    private static final By COOKIE_BUTTON = By.id("rcc-confirm-button");
 
     private final WebDriver driver;
 
@@ -14,6 +14,6 @@ public class BasePage {
     }
 
     public void clickAcceptCookieButton() {
-        driver.findElement(cookieButton).click();
+        driver.findElement(COOKIE_BUTTON).click();
     }
 }

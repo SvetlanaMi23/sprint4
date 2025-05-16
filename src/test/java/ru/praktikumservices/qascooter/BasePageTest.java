@@ -22,7 +22,7 @@ public class BasePageTest {
 
     @Before
     public void createDriver() {
-        String[] arguments = new String[]{"--no-sandbox", "--headless", "--window-size=1920,1080", "--disable-dev-shm-usage"};
+        String[] arguments = new String[]{"--no-sandbox", "--headless", "--window-size=1200,800", "--disable-dev-shm-usage"};
         if (typeDriver == 0) {
             // Создаем драйвер для браузера Firefox
             FirefoxOptions firefoxOptions = new FirefoxOptions();
